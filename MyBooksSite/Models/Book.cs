@@ -15,6 +15,5 @@ namespace MyBooksSite.Models
         public string Title { get; set; }
         public Author Author { get; set; }
         public int AuthorId { get; set; }
-        public IEnumerator<Rating>  Rating { get; set; }
     }
 }

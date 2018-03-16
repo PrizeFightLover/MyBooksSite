@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyBooksSite.Models;
+using MyBooksSite.ViewModels;
 
 namespace MyBooksSite.Controllers
 {
@@ -14,14 +15,19 @@ namespace MyBooksSite.Controllers
     public class BooksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
         [AllowAnonymous]
         // GET: Books
         public ActionResult Index()
         {
-            var books = db.Books.Include(b => b.Author);
-            return View(books.ToList());
+            var books = db.Books.Include(b => b.Author).ToList();
+            var ratings = db.Ratings.ToList();
+            var viewModel = new List<BookRatingViewModel>();
+            viewModel = CalculateBookRating(books, ratings, viewModel);
+            return View(viewModel);
         }
 
+        [AllowAnonymous]
         // GET: Books/Details/5
         public ActionResult Details(int? id)
         {
@@ -29,12 +35,21 @@ namespace MyBooksSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
-            if (book == null)
+            var viewModel = new BookRatingViewModel(); 
+            viewModel.Book = db.Books.Find(id);
+            var ratings = from rating in db.Ratings
+                           where rating.BookId == viewModel.Book.Id
+                           select rating.Stars;
+            
+            if (ratings.Count() > 0)
+            {
+                viewModel.AverageRating = ratings.Average();
+            }
+            if (viewModel.Book == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            return View(viewModel);
         }
 
         // GET: Books/Create
@@ -95,6 +110,7 @@ namespace MyBooksSite.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Books/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -129,5 +145,34 @@ namespace MyBooksSite.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #region Helpers
+        private List<BookRatingViewModel> CalculateBookRating(List<Book> books, List<Rating> ratings, List<BookRatingViewModel> viewModel)
+        {
+            foreach (var book in books)
+            {
+                var newBookRating = new BookRatingViewModel();
+                newBookRating.Book = book;
+                var count = 0;
+                var total = 0;
+                foreach (var rating in ratings)
+                {
+                    if (book.Id == rating.BookId)
+                        total += rating.Stars;
+                    count++;
+                }
+                if (count > 0)
+                {
+                    newBookRating.AverageRating = total / count;
+                }
+                else
+                {
+                    newBookRating.AverageRating = 0;
+                }
+                viewModel.Add(newBookRating);
+            }
+            return viewModel;
+        }
+        #endregion
     }
 }

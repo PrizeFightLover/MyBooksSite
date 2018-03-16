@@ -7,13 +7,13 @@ namespace MyBooksSite.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedRatings : IMigrationMetadata
+    public sealed partial class AddRatings : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedRatings));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddRatings));
         
         string IMigrationMetadata.Id
         {
-            get { return "201803152138024_AddedRatings"; }
+            get { return "201803152149004_AddRatings"; }
         }
         
         string IMigrationMetadata.Source

@@ -3,7 +3,7 @@ namespace MyBooksSite.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddedRatings : DbMigration
+    public partial class AddAdminRole : DbMigration
     {
         public override void Up()
         {

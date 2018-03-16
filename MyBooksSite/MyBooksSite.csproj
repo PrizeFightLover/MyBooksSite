@@ -209,9 +209,9 @@
     <Compile Include="Migrations\201803152122052_UpdateBookAndAuthorModel.Designer.cs">
       <DependentUpon>201803152122052_UpdateBookAndAuthorModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803152138024_AddedRatings.cs" />
-    <Compile Include="Migrations\201803152138024_AddedRatings.Designer.cs">
-      <DependentUpon>201803152138024_AddedRatings.cs</DependentUpon>
+    <Compile Include="Migrations\201803152149004_AddRatings.cs" />
+    <Compile Include="Migrations\201803152149004_AddRatings.Designer.cs">
+      <DependentUpon>201803152149004_AddRatings.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -222,6 +222,7 @@
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BookRatingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -317,8 +318,8 @@
     <EmbeddedResource Include="Migrations\201803152122052_UpdateBookAndAuthorModel.resx">
       <DependentUpon>201803152122052_UpdateBookAndAuthorModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803152138024_AddedRatings.resx">
-      <DependentUpon>201803152138024_AddedRatings.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803152149004_AddRatings.resx">
+      <DependentUpon>201803152149004_AddRatings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
