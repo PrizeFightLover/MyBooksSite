@@ -197,21 +197,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201803142101391_InitialModel.cs" />
-    <Compile Include="Migrations\201803142101391_InitialModel.Designer.cs">
-      <DependentUpon>201803142101391_InitialModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803142139191_InitialModel1.cs" />
-    <Compile Include="Migrations\201803142139191_InitialModel1.Designer.cs">
-      <DependentUpon>201803142139191_InitialModel1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803152122052_UpdateBookAndAuthorModel.cs" />
-    <Compile Include="Migrations\201803152122052_UpdateBookAndAuthorModel.Designer.cs">
-      <DependentUpon>201803152122052_UpdateBookAndAuthorModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201803152149004_AddRatings.cs" />
-    <Compile Include="Migrations\201803152149004_AddRatings.Designer.cs">
-      <DependentUpon>201803152149004_AddRatings.cs</DependentUpon>
+    <Compile Include="Migrations\201803171653377_init.cs" />
+    <Compile Include="Migrations\201803171653377_init.Designer.cs">
+      <DependentUpon>201803171653377_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -309,17 +297,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201803142101391_InitialModel.resx">
-      <DependentUpon>201803142101391_InitialModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803142139191_InitialModel1.resx">
-      <DependentUpon>201803142139191_InitialModel1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803152122052_UpdateBookAndAuthorModel.resx">
-      <DependentUpon>201803152122052_UpdateBookAndAuthorModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201803152149004_AddRatings.resx">
-      <DependentUpon>201803152149004_AddRatings.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201803171653377_init.resx">
+      <DependentUpon>201803171653377_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

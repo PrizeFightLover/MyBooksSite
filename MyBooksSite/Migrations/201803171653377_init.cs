@@ -3,7 +3,7 @@ namespace MyBooksSite.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModel : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -12,8 +12,8 @@ namespace MyBooksSite.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        FirstName = c.String(),
-                        LastName = c.String(),
+                        FirstName = c.String(nullable: false, maxLength: 255),
+                        LastName = c.String(nullable: false, maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -22,12 +22,24 @@ namespace MyBooksSite.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(),
-                        Author_Id = c.Int(),
+                        Title = c.String(nullable: false, maxLength: 255),
+                        AuthorId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Authors", t => t.Author_Id)
-                .Index(t => t.Author_Id);
+                .ForeignKey("dbo.Authors", t => t.AuthorId, cascadeDelete: true)
+                .Index(t => t.AuthorId);
+            
+            CreateTable(
+                "dbo.Ratings",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Stars = c.Int(nullable: false),
+                        BookId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)
+                .Index(t => t.BookId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -35,6 +47,8 @@ namespace MyBooksSite.Migrations
                     {
                         Id = c.String(nullable: false, maxLength: 128),
                         Name = c.String(nullable: false, maxLength: 256),
+                        Description = c.String(),
+                        Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
@@ -105,19 +119,22 @@ namespace MyBooksSite.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Books", "Author_Id", "dbo.Authors");
+            DropForeignKey("dbo.Ratings", "BookId", "dbo.Books");
+            DropForeignKey("dbo.Books", "AuthorId", "dbo.Authors");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Books", new[] { "Author_Id" });
+            DropIndex("dbo.Ratings", new[] { "BookId" });
+            DropIndex("dbo.Books", new[] { "AuthorId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Ratings");
             DropTable("dbo.Books");
             DropTable("dbo.Authors");
         }
