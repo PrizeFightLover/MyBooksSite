@@ -1,13 +1,11 @@
-﻿using System;
+﻿using MyBooksSite.Models;
+using MyBooksSite.ViewModels;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using MyBooksSite.Models;
-using MyBooksSite.ViewModels;
 
 namespace MyBooksSite.Controllers
 {
@@ -35,15 +33,14 @@ namespace MyBooksSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var viewModel = new BookRatingViewModel(); 
+            var viewModel = new BookRatingViewModel { AverageRating = 0 }; 
             viewModel.Book = db.Books.Find(id);
-            var ratings = from rating in db.Ratings
-                           where rating.BookId == viewModel.Book.Id
-                           select rating.Stars;
-            
-            if (ratings.Count() > 0)
+            var ratings = db.Ratings.Where(r => r.BookId == viewModel.Book.Id).Select(r => r.Stars).ToArray();
+            viewModel.numberOfRatings = ratings.Count();
+            if (viewModel.numberOfRatings > 0)
             {
                 viewModel.AverageRating = ratings.Average();
+                
             }
             if (viewModel.Book == null)
             {
@@ -126,6 +123,7 @@ namespace MyBooksSite.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = "Admin")]
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -151,23 +149,22 @@ namespace MyBooksSite.Controllers
         {
             foreach (var book in books)
             {
-                var newBookRating = new BookRatingViewModel();
-                newBookRating.Book = book;
-                var count = 0;
+                var newBookRating = new BookRatingViewModel
+                {
+                    Book = book,
+                    AverageRating = 0,
+                    numberOfRatings = 0
+                };
                 var total = 0;
                 foreach (var rating in ratings)
                 {
                     if (book.Id == rating.BookId)
                         total += rating.Stars;
-                    count++;
+                    newBookRating.numberOfRatings++;
                 }
-                if (count > 0)
+                if (newBookRating.numberOfRatings > 0)
                 {
-                    newBookRating.AverageRating = total / count;
-                }
-                else
-                {
-                    newBookRating.AverageRating = 0;
+                    newBookRating.AverageRating = total / newBookRating.numberOfRatings;
                 }
                 viewModel.Add(newBookRating);
             }

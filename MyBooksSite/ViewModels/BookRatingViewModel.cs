@@ -10,5 +10,6 @@ namespace MyBooksSite.ViewModels
     {
         public Book Book { get; set; }
         public double AverageRating { get; set; }
+        public int numberOfRatings { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 namespace MyBooksSite.Migrations
 {
-    using System;
-    using System.Data.Entity;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using MyBooksSite.Models;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -14,18 +15,32 @@ namespace MyBooksSite.Migrations
 
         protected override void Seed(MyBooksSite.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            if (!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                var store = new RoleStore<ApplicationRole>(context);
+                var manager = new RoleManager<ApplicationRole>(store);
+                var role = new ApplicationRole { Name = "Admin" };
+                manager.Create(role);
+            }
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            if (!context.Users.Any(u => u.UserName == "Overlord"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "Overlord" };
+
+                manager.Create(user, "Password123!");
+                manager.AddToRole(user.Id, "Admin");
+            }
+
+            if (!context.Roles.Any(r => r.Name == "Editor"))
+            {
+                var store = new RoleStore<ApplicationRole>(context);
+                var manager = new RoleManager<ApplicationRole>(store);
+                var role = new ApplicationRole { Name = "Editor" };
+
+                manager.Create(role);
+            }
         }
     }
 }

@@ -49,9 +49,9 @@ namespace MyBooksSite.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Gebruikersnaam")]
+        [MaxLength(255)]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +64,11 @@ namespace MyBooksSite.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [MaxLength(255)]
+        [Display(Name = "Gebruikersnaam")]
+        public string UserName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
