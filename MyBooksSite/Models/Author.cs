@@ -14,5 +14,14 @@ namespace MyBooksSite.Models
         [StringLength(255)]
         [Display(Name = "Achternaam")]
         public string LastName { get; set; }
+
+        [Display(Name = "Auteur")]
+        public string FullName
+        {
+            get
+            {
+                return string.Format("{0} {1}", FirstName, LastName);
+            }
+        }
     }
 }

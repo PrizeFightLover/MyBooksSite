@@ -2,21 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace MyBooksSite.Models
+namespace MyBooksSite.ViewModels
 {
-    public class AdminViewModel
+    public class AdminEditUserViewModel
     {
-        public class RoleViewModel
-        {
-            public string Id { get; set; }
-            [Required(AllowEmptyStrings = false)]
-            [Display(Name = "RoleName")]
-            public string Name { get; set; }
-            public string Description { get; set; }
-        }
-
-        public class EditUserViewModel
-        {
             public string Id { get; set; }
 
             [Required(AllowEmptyStrings = false)]
@@ -28,6 +17,6 @@ namespace MyBooksSite.Models
             [Display(Name = "Gebruikersnaam")]
             public string UserName { get; set; }
             public IEnumerable<SelectListItem> RolesList { get; set; }
-        }
+       
     }
 }

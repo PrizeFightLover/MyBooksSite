@@ -1,44 +1,49 @@
 ﻿@model IEnumerable<MyBooksSite.ViewModels.BookRatingViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Overzicht boeken";
 }
 
-<h2>Index</h2>
+<h2>Overzicht boeken</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Boek aanmaken", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Titel
-        </th>
-        <th>
-            Naam
-        </th>
-        <th>
-            Rating
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Book.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Book.Author.FirstName)
-            @Html.DisplayFor(modelItem => item.Book.Author.LastName)
-        </td>
-        <td>@Html.DisplayFor(modelItem => item.AverageRating)</td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Book.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Book.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Book.Id })
-        </td>
-    </tr>
-}
-
-</table>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Book.Title)
+                </th>
+                <th>
+                    Naam
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AverageRating)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Author.FirstName)
+                    @Html.DisplayFor(modelItem => item.Book.Author.LastName)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.AverageRating)</td>
+                <td>
+                    @Html.ActionLink("Wijzigen", "Edit", new { id = item.Book.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Book.Id }) |
+                    @Html.ActionLink("Verwijderen", "Delete", new { id = item.Book.Id })
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+    </div>  

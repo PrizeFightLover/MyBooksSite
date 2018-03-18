@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.Owin;
 using MyBooksSite.Models;
+using MyBooksSite.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -53,7 +56,26 @@ namespace MyBooksSite.Controllers
         // GET: /Users/
         public async Task<ActionResult> Index()
         {
-            return View(await UserManager.Users.ToListAsync());
+            var viewModel = new List<AdminIndexUserViewModel>();
+            var users = await UserManager.Users.ToListAsync();
+            foreach(var user in users)
+            {
+                var indexUser = new AdminIndexUserViewModel
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Roles = new List<string>()
+                };
+                foreach (var role in user.Roles)
+                {
+                    var item = await RoleManager.FindByIdAsync(role.RoleId);
+                    if (!String.IsNullOrWhiteSpace(item.Name))
+                        indexUser.Roles.Add(item.Name);
+                };
+                viewModel.Add(indexUser);
+            };
+            return View(viewModel);
         }
 
         //
@@ -136,7 +158,7 @@ namespace MyBooksSite.Controllers
 
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
-            return View(new AdminViewModel.EditUserViewModel
+            return View(new AdminEditUserViewModel
             {
                 Id = user.Id,
                 UserName = user.UserName,
@@ -146,7 +168,7 @@ namespace MyBooksSite.Controllers
                 {
                     Selected = userRoles.Contains(x.Name),
                     Text = x.Name,
-                    Value = x.Name
+                    Value = x.Description
                 })
             });
         }
@@ -155,7 +177,7 @@ namespace MyBooksSite.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id")] ApplicationUser editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "UserName, Email,Id")] AdminEditUserViewModel editUser, params string[] selectedRole)
         {
             if (ModelState.IsValid)
             {

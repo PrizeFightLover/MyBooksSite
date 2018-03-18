@@ -35,7 +35,7 @@ namespace MyBooksSite.Controllers
             }
             var viewModel = new BookRatingViewModel { AverageRating = 0 }; 
             viewModel.Book = db.Books.Find(id);
-            var ratings = db.Ratings.Where(r => r.BookId == viewModel.Book.Id).Select(r => r.Stars).ToArray();
+            var ratings = db.Ratings.Where(r => r.BookId == viewModel.Book.Id).Select(r => r.Rating).ToArray();
             viewModel.numberOfRatings = ratings.Count();
             if (viewModel.numberOfRatings > 0)
             {
@@ -86,7 +86,7 @@ namespace MyBooksSite.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FirstName", book.AuthorId);
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName", book.AuthorId);
             return View(book);
         }
 
@@ -103,7 +103,7 @@ namespace MyBooksSite.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FirstName", book.AuthorId);
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName", book.AuthorId);
             return View(book);
         }
 
@@ -145,7 +145,7 @@ namespace MyBooksSite.Controllers
         }
 
         #region Helpers
-        private List<BookRatingViewModel> CalculateBookRating(List<Book> books, List<Rating> ratings, List<BookRatingViewModel> viewModel)
+        private List<BookRatingViewModel> CalculateBookRating(List<Book> books, List<BookRating> ratings, List<BookRatingViewModel> viewModel)
         {
             foreach (var book in books)
             {
@@ -159,7 +159,7 @@ namespace MyBooksSite.Controllers
                 foreach (var rating in ratings)
                 {
                     if (book.Id == rating.BookId)
-                        total += rating.Stars;
+                        total += rating.Rating;
                     newBookRating.numberOfRatings++;
                 }
                 if (newBookRating.numberOfRatings > 0)

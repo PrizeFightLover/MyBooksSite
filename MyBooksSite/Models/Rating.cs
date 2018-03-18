@@ -6,11 +6,11 @@ using System.Web;
 
 namespace MyBooksSite.Models
 {
-    public class Rating
+    public class BookRating
     {
         public int Id { get; set; }
-        [Range(0, 5)]
-        public int Stars { get; set; }
+        [Range(1, 5)]
+        public int Rating { get; set; }
         public Book Book { get; set; }
         public int BookId { get; set; }
 
