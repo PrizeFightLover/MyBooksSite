@@ -18,6 +18,6 @@ namespace MyBooksSite.Models
         public int SumRatings { get; set; }
         public int NumberOfRatings { get; set; }
         public string Description { get; set; }
-
+    }
 }
 
