@@ -1,5 +1,6 @@
 ﻿using MyBooksSite.Models;
 using MyBooksSite.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -19,10 +20,7 @@ namespace MyBooksSite.Controllers
         public ActionResult Index()
         {
             var books = db.Books.Include(b => b.Author).ToList();
-            var ratings = db.Ratings.ToList();
-            var viewModel = new List<BookRatingViewModel>();
-            viewModel = CalculateBookRating(books, ratings, viewModel);
-            return View(viewModel);
+            return View(books);
         }
 
         [AllowAnonymous]
@@ -35,18 +33,22 @@ namespace MyBooksSite.Controllers
             }
             var viewModel = new BookRatingViewModel { AverageRating = 0 }; 
             viewModel.Book = db.Books.Find(id);
-            var ratings = db.Ratings.Where(r => r.BookId == viewModel.Book.Id).Select(r => r.Rating).ToArray();
-            viewModel.numberOfRatings = ratings.Count();
-            if (viewModel.numberOfRatings > 0)
+            if (viewModel.Book.NumberOfRatings > 0)
             {
-                viewModel.AverageRating = ratings.Average();
-                
+                viewModel.AverageRating = Math.Round((double)viewModel.Book.SumRatings / (double)viewModel.Book.NumberOfRatings, 2);
             }
             if (viewModel.Book == null)
             {
                 return HttpNotFound();
             }
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Rate(int id, int rate)
+        {
+            var bookRating = IncrementBookRating(rate, id);
+            return Json(new { averageRating= bookRating.AverageRating, numberOfRatings = bookRating.NumberOfRatings }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Books/Create
@@ -145,31 +147,24 @@ namespace MyBooksSite.Controllers
         }
 
         #region Helpers
-        private List<BookRatingViewModel> CalculateBookRating(List<Book> books, List<BookRating> ratings, List<BookRatingViewModel> viewModel)
+        public BookRatingViewModel IncrementBookRating(int rate, int id)
         {
-            foreach (var book in books)
+            var book = db.Books
+                      .Where(b => b.Id == id)
+                      .First();
+            book.SumRatings += rate;
+            book.NumberOfRatings++;
+            db.SaveChanges();
+            var bookRating = new BookRatingViewModel()
             {
-                var newBookRating = new BookRatingViewModel
-                {
-                    Book = book,
-                    AverageRating = 0,
-                    numberOfRatings = 0
-                };
-                var total = 0;
-                foreach (var rating in ratings)
-                {
-                    if (book.Id == rating.BookId)
-                        total += rating.Rating;
-                    newBookRating.numberOfRatings++;
-                }
-                if (newBookRating.numberOfRatings > 0)
-                {
-                    newBookRating.AverageRating = total / newBookRating.numberOfRatings;
-                }
-                viewModel.Add(newBookRating);
-            }
-            return viewModel;
+                BookId = book.Id,
+                SumRatings = book.SumRatings,
+                NumberOfRatings = book.NumberOfRatings,
+                AverageRating = Math.Round((double)book.SumRatings / (double)book.NumberOfRatings, 2) 
+            };
+            return bookRating;
         }
+
         #endregion
     }
 }
