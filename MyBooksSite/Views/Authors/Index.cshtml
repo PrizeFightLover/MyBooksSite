@@ -9,36 +9,39 @@
 <p>
     @Html.ActionLink("Auteur aanmaken", "Create")
 </p>
-<div class="table-responsive">
-    <table class="table">
+<div class="table-responsive" >
+    <table class="table" id="authorTable">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.DisplayNameFor(model => model.FullName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
-        {
+            {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
+                    <a href="@Url.Action("Details", "Authors", new { id = item.Id })">@Html.DisplayFor(modelItem => item.FullName)</a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
+                    <a href="@Url.Action("Edit", "Authors", new { id = item.Id })"><i class="far fa-edit"></i></a>
+                    <a href="@Url.Action("Delete", "Authors", new { id = item.Id })"><i class="far fa-trash-alt"></i></a>
                 </td>
-                <td>
-                    @Html.ActionLink("Wijzigen", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Verwijderen", "Delete", new { id = item.Id })
-                </td>
+
             </tr>
-    }
+            }
         </tbody>
     </table>
-    </div>
+</div>
+@section Scripts {
+    <script>
+    $(document).ready(function() {
+    $('#authorTable').DataTable();
+    });
+    </script>}

@@ -1,4 +1,4 @@
-﻿@model MyBooksSite.Models.Author
+﻿@model MyBooksSite.ViewModels.AuthorBooksViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,24 +11,33 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
+            @Html.DisplayNameFor(model => model.Author.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FirstName)
+            @Html.DisplayFor(model => model.Author.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LastName)
+            @Html.DisplayNameFor(model => model.Author.LastName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LastName)
+            @Html.DisplayFor(model => model.Author.LastName)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Books)
+        </dt>
+        @foreach (var book in Model.Books)
+    {
+        <dd>
+            @book.Title | @book.YearPublication
+        </dd>
+}
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Wijzigen", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Wijzigen", "Edit", new { id = Model.Author.Id }) |
     @Html.ActionLink("Terug naar overzicht", "Index")
 </p>

@@ -16,7 +16,12 @@ namespace MyBooksSite.Models
         public Author Author { get; set; }
         public int AuthorId { get; set; }
         public int SumRatings { get; set; }
+        [Display(Name = "Jaar publicatie")]
+        public DateTime YearPublication { get; set; }
         public int NumberOfRatings { get; set; }
+        [Display(Name ="Populariteit")]
+        public int NumberOfViews { get; set; }
+        [Display(Name = "Omschrijving")]
         public string Description { get; set; }
     }
 }

@@ -214,6 +214,18 @@
     <Compile Include="Migrations\201803181610315_removedSeparateRatingsTable.Designer.cs">
       <DependentUpon>201803181610315_removedSeparateRatingsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803192137375_addedDescriptionFields.cs" />
+    <Compile Include="Migrations\201803192137375_addedDescriptionFields.Designer.cs">
+      <DependentUpon>201803192137375_addedDescriptionFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803212100129_AddedViewsBooks.cs" />
+    <Compile Include="Migrations\201803212100129_AddedViewsBooks.Designer.cs">
+      <DependentUpon>201803212100129_AddedViewsBooks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803212128130_AddedYearOfPublication.cs" />
+    <Compile Include="Migrations\201803212128130_AddedYearOfPublication.Designer.cs">
+      <DependentUpon>201803212128130_AddedYearOfPublication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="ViewModels\AdminEditUserViewModel.cs" />
@@ -224,6 +236,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AdminIndexUserViewModel.cs" />
+    <Compile Include="ViewModels\AuthorBooksViewModel.cs" />
     <Compile Include="ViewModels\BookRatingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +309,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -325,6 +339,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803181610315_removedSeparateRatingsTable.resx">
       <DependentUpon>201803181610315_removedSeparateRatingsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803192137375_addedDescriptionFields.resx">
+      <DependentUpon>201803192137375_addedDescriptionFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803212100129_AddedViewsBooks.resx">
+      <DependentUpon>201803212100129_AddedViewsBooks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803212128130_AddedYearOfPublication.resx">
+      <DependentUpon>201803212128130_AddedYearOfPublication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

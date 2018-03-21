@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyBooksSite.Models;
+using MyBooksSite.ViewModels;
 
 namespace MyBooksSite.Controllers
 {
@@ -29,12 +30,18 @@ namespace MyBooksSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = db.Authors.Find(id);
+            var author = db.Authors.Find(id);
+            var viewModel = new AuthorBooksViewModel
+            {
+                Author = author,
+                Books = db.Books.Where(b => b.AuthorId == author.Id).ToList()
+            };
+
             if (author == null)
             {
                 return HttpNotFound();
             }
-            return View(author);
+            return View(viewModel);
         }
 
         // GET: Authors/Create

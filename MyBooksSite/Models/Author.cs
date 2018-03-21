@@ -14,6 +14,7 @@ namespace MyBooksSite.Models
         [StringLength(255)]
         [Display(Name = "Achternaam")]
         public string LastName { get; set; }
+        [Display(Name = "Omschrijving")]
         public string Description { get; set; }
         [Display(Name = "Auteur")]
         public string FullName

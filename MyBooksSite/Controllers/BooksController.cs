@@ -33,6 +33,8 @@ namespace MyBooksSite.Controllers
             }
             var viewModel = new BookRatingViewModel { AverageRating = 0 }; 
             viewModel.Book = db.Books.Find(id);
+            viewModel.Book.NumberOfViews++;
+            db.SaveChanges();
             if (viewModel.Book.NumberOfRatings > 0)
             {
                 viewModel.AverageRating = Math.Round((double)viewModel.Book.SumRatings / (double)viewModel.Book.NumberOfRatings, 2);
@@ -63,7 +65,7 @@ namespace MyBooksSite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,AuthorId")] Book book)
+        public ActionResult Create([Bind(Include = "Id,Title,AuthorId, YearPublication, Description")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +74,7 @@ namespace MyBooksSite.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FirstName", book.AuthorId);
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName", book.AuthorId);
             return View(book);
         }
 
@@ -97,7 +99,7 @@ namespace MyBooksSite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,AuthorId")] Book book)
+        public ActionResult Edit([Bind(Include = "Id,Title,AuthorId, YearPublication, Description")] Book book)
         {
             if (ModelState.IsValid)
             {

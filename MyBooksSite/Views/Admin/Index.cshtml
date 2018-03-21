@@ -10,7 +10,7 @@
     @Html.ActionLink("Gebruiker aanmaken", "Create")
 </p>
 <div class="table-responsive">
-    <table class="table">
+    <table class="table"  id="userTable">
         <thead>
             <tr>
                 <th>
@@ -31,7 +31,8 @@
             {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
+                    <a href="@Url.Action("Edit", "Admin", new { id = item.Id }) "> @Html.DisplayFor(modelItem => item.UserName) </a>
+                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
@@ -39,27 +40,35 @@
                 <td>
                     <ul>
                         @if (item.Roles.Count > 0)
-    {
-        foreach (var role in item.Roles)
-        {
+            {
+                foreach (var role in item.Roles)
+                {
                     <li>@role</li>
-                            }
+    }
 
-                        }
-                        else
-                        {
-                            <li>Kijk rechten</li>
-                        }
+}
+else
+{
+            <li>Kijk rechten</li>
+}
 
                     </ul>
-                   </td>
+                </td>
                 <td>
-                    @Html.ActionLink("Wijzigen", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Verwijderen", "Delete", new { id = item.Id })
+                    <a href="@Url.Action("Edit", "Admin", new { id = item.Id })"><i class="far fa-edit"></i></a>
+                    <a href="@Url.Action("Delete", "Admin", new { id = item.Id })"><i class="far fa-trash-alt"></i></a>
                 </td>
             </tr>
             }
         </tbody>
     </table>
 </div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable({
+                order: [[1, 'asc'], [0, 'asc']]
+            });
+        });
+    </script>
+    }

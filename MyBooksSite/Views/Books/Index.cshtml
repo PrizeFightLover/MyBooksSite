@@ -1,4 +1,4 @@
-﻿@model IEnumerable < MyBooksSite.Models.Book>
+﻿@model IEnumerable<MyBooksSite.Models.Book>
 
 @{
     ViewBag.Title = "Overzicht boeken";
@@ -10,46 +10,58 @@
     @Html.ActionLink("Boek aanmaken", "Create")
 </p>
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="bookTable">
         <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Title)
                 </th>
                 <th>
-                    Naam
+                    @Html.DisplayNameFor(model => model.Author.FullName)
                 </th>
-                <th>
-                </th>
+                <th>Beoordeling</th>
+                <th>@Html.DisplayNameFor(model => model.NumberOfViews)</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Author.FirstName)
-                    @Html.DisplayFor(modelItem => item.Author.LastName)
-                </td>
-                @{ 
-                    var average = 0;
-                    if (item.NumberOfRatings > 0)
-                    {
-                        average = item.SumRatings / item.NumberOfRatings;
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Details", "Books", new { id = item.Id }) "> @Html.DisplayFor(modelItem => item.Title) </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", "Authors", new { id = item.Author.Id }) "> @Html.DisplayFor(modelItem => item.Author.FullName) </a>
+                    </td>
+                    @{
+                        var average = 0;
+                        if (item.NumberOfRatings > 0)
+                        {
+                            average = item.SumRatings / item.NumberOfRatings;
+                        }
                     }
-                }
-                <td>@String.Format("{0:0.0}", average)</td>
-                <td>
-                    @Html.ActionLink("Wijzigen", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Verwijderen", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-    }
+                    <td>@average</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumberOfViews)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Books", new { id = item.Id })"><i class="far fa-edit"></i></a>
+                        <a href="@Url.Action("Delete", "Books", new { id = item.Id })"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
-    </div>  
+</div>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#bookTable').DataTable({
+                order: [[1, 'asc'], [0, 'asc']]
+            });
+        });
+    </script>
+}

@@ -6,38 +6,44 @@
 
 <h2>@Html.DisplayFor(model => model.Book.Title)</h2>
 
-<div style="float:left; position:relative">
-    <input type="hidden" name="BookId" id="BookId" value="@Model.Book.Id">
-    <input type="hidden" name="averageRating" id="averageRating" value="@Model.AverageRating">
-    <hr />
-    <h4>Omschrijving</h4>
-    <p>Blablabla</p>
-    <h4>Genre</h4>
-    <p>Blablabla</p>
-    <h5>Geef je beoordeling!</h5>
-    <fieldset class="starability-checkmark">
-        <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
-        <input type="radio" id="first-rate1" name="rating" value="1" />
-        <label for="first-rate1" title="Terrible">1 star</label>
-        <input type="radio" id="first-rate2" name="rating" value="2" />
-        <label for="first-rate2" title="Not good">2 stars</label>
-        <input type="radio" id="first-rate3" name="rating" value="3" />
-        <label for="first-rate3" title="Average">3 stars</label>
-        <input type="radio" id="first-rate4" name="rating" value="4" />
-        <label for="first-rate4" title="Very good">4 stars</label>
-        <input type="radio" id="first-rate5" name="rating" value="5" />
-        <label for="first-rate5" title="Amazing">5 stars</label>
-    </fieldset>
 
-</div>
+<input type="hidden" name="BookId" id="BookId" value="@Model.Book.Id">
+<input type="hidden" name="averageRating" id="averageRating" value="@Model.AverageRating">
+<div class="row">
+    <div class="col-xs-4 border col-xs-offset-4">
 
-<div class="gaugeBookDetails" >
-    <div style="width: 600px; height: 400px; margin: 0 auto ; position:relative">
-        <div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
-        <div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
-        <div id="numberOfRatings">Totaal aantal stemmen: @Model.Book.NumberOfRatings</div>
+        <hr />
+        <h4>@Html.LabelFor(model => model.Book.Description)</h4>
+        <p>@Html.DisplayFor(model => model.Book.Description)</p>
+        <h4>@Html.LabelFor(model => model.Book.YearPublication)</h4>
+        <p>@Html.DisplayFor(model => model.Book.YearPublication)</p>
+        <h5>Geef je beoordeling!</h5>
+        <fieldset class="starability-checkmark">
+            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+            <input type="radio" id="first-rate1" name="rating" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="first-rate2" name="rating" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate3" name="rating" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate4" name="rating" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate5" name="rating" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
+
+    </div>
+    <div class="col-xs-4 border">
+        <div style="width: 600px; height: 400px;">
+            <div id="container-speed" style="width: 300px; height: 200px;"></div>
+            <div id="container-rpm" style="width: 300px; height: 200px;"></div>
+            <div id="numberOfRatings">Totaal aantal stemmen: @Model.Book.NumberOfRatings</div>
+
+        </div>
     </div>
 </div>
+
+
 <p>
     @Html.ActionLink("Wijzigen", "Edit", new { id = Model.Book.Id }) |
     @Html.ActionLink("Terug naar overzicht", "Index")
@@ -79,81 +85,81 @@
 
 
 
-    function gaugeRating (averageBookRating) {
-        var gaugeOptions = {
-            chart: {
-                type: 'solidgauge'
-            },
-            title: null,
-            pane: {
-                center: ['50%', '85%'],
-                size: '140%',
-                startAngle: -90,
-                endAngle: 90,
-                background: {
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
-                    innerRadius: '60%',
-                    outerRadius: '100%',
-                    shape: 'arc'
-                }
-            },
-
-            tooltip: {
-                enabled: false
-            },
-
-            // the value axis
-            yAxis: {
-                stops: [
-                    [0.1, '#DF5353'], // green
-                    [0.5, '#DDDF0D'], // yellow
-                    [0.9, '#55BF3B'] // red
-                ],
-                lineWidth: 0,
-                minorTickInterval: null,
-                tickPixelInterval: 100,
-                tickWidth: 0,
-                title: {
-                    y: -70
+        function gaugeRating(averageBookRating) {
+            var gaugeOptions = {
+                chart: {
+                    type: 'solidgauge'
                 },
-                labels: {
-                    y: 16
-                }
-            },
+                title: null,
+                pane: {
+                    center: ['50%', '85%'],
+                    size: '140%',
+                    startAngle: -90,
+                    endAngle: 90,
+                    background: {
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                        innerRadius: '60%',
+                        outerRadius: '100%',
+                        shape: 'arc'
+                    }
+                },
 
-            plotOptions: {
-                solidgauge: {
-                    dataLabels: {
-                        y: 10,
-                        borderWidth: 0,
-                        useHTML: true
+                tooltip: {
+                    enabled: false
+                },
+
+                // the value axis
+                yAxis: {
+                    stops: [
+                        [0.1, '#DF5353'], // green
+                        [0.5, '#DDDF0D'], // yellow
+                        [0.9, '#55BF3B'] // red
+                    ],
+                    lineWidth: 0,
+                    minorTickInterval: null,
+                    tickPixelInterval: 100,
+                    tickWidth: 0,
+                    title: {
+                        y: -70
+                    },
+                    labels: {
+                        y: 16
+                    }
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            y: 10,
+                            borderWidth: 0,
+                            useHTML: true
+                        }
                     }
                 }
-            }
+            };
+
+            // The speed gauge
+            $('#container-speed').highcharts(Highcharts.merge(gaugeOptions, {
+                yAxis: {
+                    min: 1,
+                    max: 5,
+                    title: {
+                        text: 'Gemiddelde beoordeling'
+                    }
+                },
+
+                credits: {
+                    enabled: false
+                },
+
+                series: [{
+                    name: 'Beoordeling boek',
+                    data: [Number(averageBookRating)],
+                    dataLabels: {
+                        format: '<div style="text-align:center"><span style="font-size:25px;color:' + ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br />' + ' </div> '
+                    }
+                }]
+            }));
         };
-
-        // The speed gauge
-        $('#container-speed').highcharts(Highcharts.merge(gaugeOptions, {
-            yAxis: {
-                min: 1,
-                max: 5,
-                title: {
-                    text: 'Gemiddelde beoordeling'
-                }
-            },
-
-            credits: {
-                enabled: false
-            },
-            
-            series: [{
-                name: 'Beoordeling boek',
-                data: [Number(averageBookRating)],
-                dataLabels: {
-                    format: '<div style="text-align:center"><span style="font-size:25px;color:' + ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br />' + ' </div> '
-                }
-            }]
-        }));
-    };
     </script>
 }

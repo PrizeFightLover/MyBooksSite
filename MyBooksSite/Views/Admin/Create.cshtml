@@ -8,7 +8,7 @@
 @using (Html.BeginForm("Create", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
+    <h4>Nieuwe gebruiker aanmaken</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-error" })
     <div class="form-group">
@@ -37,7 +37,7 @@
     </div>
     <div class="form-group">
         <label class="col-md-2 control-label">
-            Select User Role
+            Kies een gebruikersrol
         </label>
         <div class="col-md-10">
             @foreach (var item in (SelectList)ViewBag.RoleId)
@@ -49,7 +49,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Create" />
+            <input type="submit" class="btn btn-default" value="Aanmaken" />
         </div>
     </div>
 }
